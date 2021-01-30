@@ -13,7 +13,7 @@ public class Interactable : MonoBehaviour {
     public virtual void HideInfo() {
         interactionInfo.gameObject.SetActive(false);        
     }
-    public virtual void LookAtPlayer(Vector3 position) {
+    public virtual void TextLookAtPlayer(Vector3 position) {
         Vector3 lookPos = new Vector3(position.x, this.transform.position.y, position.z);
         interactionInfo.LookAt(lookPos);
     }

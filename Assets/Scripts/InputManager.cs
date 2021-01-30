@@ -3,6 +3,10 @@
 public class InputManager : MonoBehaviour {
     [SerializeField] Transform smartphoneScreenLight;
     [SerializeField] Transform smartphoneTorch;
+    void Start() {
+        // initialize inventory
+        Inventory.Init();
+    }
     void Update() {
         if(Input.GetButtonDown("TorchLight"))
             ToggleTorch();

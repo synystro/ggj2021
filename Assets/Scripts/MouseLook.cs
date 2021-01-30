@@ -32,7 +32,7 @@ public class MouseLook : MonoBehaviour {
         if(Physics.Raycast(this.transform.position, this.gameObject.transform.forward, out hit, rayDistance, interactableMask)) {
             interactableObj = hit.collider.GetComponent<Interactable>();
             interactableObj.DisplayInfo();
-            interactableObj.LookAtPlayer(this.transform.position);
+            interactableObj.TextLookAtPlayer(this.transform.position);
             if(Input.GetButtonDown("Interact"))
                 interactableObj.Interact();
         } else if(interactableObj != null) {

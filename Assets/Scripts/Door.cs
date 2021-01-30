@@ -5,9 +5,10 @@ public class Door : Interactable
     float openSpeed = 2f; // velocidade pra abrir
     float targetAngle; // angulo (de fechado ou aberto)
 
+    [SerializeField] Item key;
     [SerializeField] bool opensIn = true; // se abre pra dentro    
     bool isOpen; // se esta aberta
-    bool isLocked; // se esta fechada
+    [SerializeField] bool isLocked; // se esta fechada
     bool isMoving; // se esta movendo (pra fechar ou abrir)
 
     public bool IsLocked { get { return isLocked; } }
@@ -16,6 +17,11 @@ public class Door : Interactable
         base.Interact();
         if(!isLocked)
             OpenClose();
+        else if(Inventory.items.Contains(key)) {
+            isLocked = false;
+            OpenClose();
+            print("door unlocked with " + key.name);
+        }
         else
             print("this door is locked");
     }

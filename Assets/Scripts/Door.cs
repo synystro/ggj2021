@@ -5,7 +5,7 @@ public class Door : Interactable
     float openSpeed = 2f; // velocidade pra abrir
     float targetAngle; // angulo (de fechado ou aberto)
 
-    [SerializeField] bool opensIn = true; // se abre pra dentro
+    [SerializeField] bool opensIn = true; // se abre pra dentro    
     bool isOpen; // se esta aberta
     bool isLocked; // se esta fechada
     bool isMoving; // se esta movendo (pra fechar ou abrir)

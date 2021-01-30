@@ -7,6 +7,8 @@ public class MouseLook : MonoBehaviour {
     float mouseSensitivity = 300f;
     float xRotation = 0f;
 
+    Interactable interactableObj;
+
     void Start() {
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -27,9 +29,16 @@ public class MouseLook : MonoBehaviour {
     void Aim() {
         float rayDistance = 2f;
         RaycastHit hit;
-        if(Physics.Raycast(this.transform.position, this.gameObject.transform.forward, out hit, rayDistance, interactableMask))
+        if(Physics.Raycast(this.transform.position, this.gameObject.transform.forward, out hit, rayDistance, interactableMask)) {
+            interactableObj = hit.collider.GetComponent<Interactable>();
+            interactableObj.DisplayInfo();
+            interactableObj.LookAtPlayer(this.transform.position);
             if(Input.GetButtonDown("Interact"))
-                hit.collider.GetComponent<Interactable>().Interact();
+                interactableObj.Interact();
+        } else if(interactableObj != null) {
+            interactableObj.HideInfo();
+            interactableObj = null;
+        }
 
         Debug.DrawRay(this.transform.position, this.gameObject.transform.forward * rayDistance, Color.green);
     }

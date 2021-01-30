@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour {
     float walkSpeed = 2f;
     float runSpeed = 5f;
     float speed = 2f;
-    float jumpHeight = 2f;
+    float jumpHeight = 1f;
     float gravity = -9.81f * 2;
     Vector3 velocity;
 

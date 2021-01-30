@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 84978560613227138}
   - component: {fileID: 2794783482540256840}
   m_Layer: 0
-  m_Name: FrontDoorForm
+  m_Name: FrontDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,6 +81,33 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &942284751299741142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4452349970462196185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b226c45e450de4da00a74f96dccb9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  opensIn: 1
+--- !u!64 &4673189835787696527
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4452349970462196185}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2619086233303812490, guid: 4c5793ccede6da741b39e25c169d044d, type: 3}
 --- !u!1001 &3533220574380948616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,6 +192,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c5793ccede6da741b39e25c169d044d, type: 3}
+--- !u!1 &4452349970462196185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c5793ccede6da741b39e25c169d044d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3533220574380948616}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3927767907381975907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4c5793ccede6da741b39e25c169d044d,

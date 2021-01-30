@@ -1,47 +1,9 @@
 fileFormatVersion: 2
-guid: 4f5d652f42172f64ebdbe5d86e12ad3c
+guid: 05cf8eec857eaef4aa7bb4a7f15e39bc
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable:
-  - first:
-      74: -5589436533846708409
-    second: Door|DoorClose
-  - first:
-      74: 5529963745848489855
-    second: Door|DoorOpen
-  - first:
-      74: 714252098568412058
-    second: Door|MacanetaOpen/Close
-  - first:
-      74: -5351085124712543430
-    second: Macaneta|DoorClose
-  - first:
-      74: -8061991475166632860
-    second: Macaneta|DoorOpen
-  - first:
-      74: 1891184074420783174
-    second: Macaneta|MacanetaOpen/Close
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Door
-    second: {fileID: 2100000, guid: 28a1482636661b4479ffbba215c1a06e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Front
-    second: {fileID: 2100000, guid: c6db7882ebbd1954c890c1c7fc3b8560, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Glass
-    second: {fileID: 2100000, guid: d11d732e7a6a186489970292343e6c25, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Macaneta e chave
-    second: {fileID: 2100000, guid: b86a3873a70c49b48a6187a961f9a3c6, type: 2}
+  internalIDToNameTable: []
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0

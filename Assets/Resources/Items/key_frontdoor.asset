@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9f13ef13c8028447b5374d5831c8676, type: 3}
-  m_Name: FrontDoorKey
+  m_Name: key_frontdoor
   m_EditorClassIdentifier: 
   id: 0
   name: 

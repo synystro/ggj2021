@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,24 +16,33 @@ public class Hart : MonoBehaviour {
     private Vector3 playerLastKnownPosition;
     private int movementIndex;
     private bool isPlayerVisible;
+    private bool isWalking;
     private bool isChasingPlayer;
     private bool caughtPlayer;
     private Door door;
     private NavMeshAgent agent;
-    private Transform target;
+
+    [SerializeField] Transform waypointsParent;
+    [SerializeField] Transform player;
+    [SerializeField] Transform nextWaypoint;
+    //[SerializeField] private Transform target;
     private Rigidbody rigidBody;
 
     float seenSpokenCD = 15f;
     float seenSpokenTimer;
-    bool seenSpoken = false; // falou ao ver o player
+    //bool seenSpoken = false; // falou ao ver o player
 
+    BoxCollider ownCollider;
+    UnityEngine.Animator animator;
     AudioSource audioSource;
     AudioClip[] playerFoundLines; // vozes pra quando o player eh avistado
 
     void Awake() {
         agent = this.GetComponent<NavMeshAgent>();
         rigidBody = this.GetComponent<Rigidbody>();
+        ownCollider = this.GetComponent<BoxCollider>();
         
+        animator = this.GetComponentInChildren<UnityEngine.Animator>();     
         audioSource = this.GetComponent<AudioSource>();
         playerFoundLines = Resources.LoadAll<AudioClip>("Audio/Hart/playerFoundLines");
     }
@@ -44,22 +54,23 @@ public class Hart : MonoBehaviour {
         else {
             agent.enabled = false;
         }
+
+        isWalking = agent.velocity != Vector3.zero ? true : false;
+
+        if(!isWalking)
+            audioSource.Pause();
+        else
+            audioSource.UnPause();
+
+        animator.SetBool("isWalking", isWalking);
     }
 
     void SearchForPlayer() {
-        // look for player in chasingRange.
-        if(target == null) {
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, chasingRange / 2, Vector3.down);
-            foreach(RaycastHit hit in hits)
-                if(hit.transform.CompareTag("Player")) {
-                    target = hit.transform;                    
-                    CheckIfPlayerVisible();
-                }
-        }
         // check if player isn't behind any obstacle.
-        if(target != null) {
+        if(player != null)
             CheckIfPlayerVisible();
-        }
+        else
+            Debug.LogError("Please set Hart's target (player)");
     }
 
     void CheckIfPlayerVisible() {
@@ -71,40 +82,45 @@ public class Hart : MonoBehaviour {
             );
 
         // debug eye-sight position to the player.
-        Debug.DrawRay(sightPosition, (target.position - transform.position), Color.green);
+        Debug.DrawRay(sightPosition, (player.position - transform.position), Color.green);
 
         // check if is still seeing the player and chasing it.
         RaycastHit hit;
-        if(Physics.Raycast(sightPosition, (target.position - transform.position), out hit)) {
-            if(hit.transform.gameObject == target.gameObject) {
+        if(Physics.Raycast(sightPosition, (player.position - transform.position), out hit)) {
+            if(hit.transform.gameObject == player.gameObject && hit.collider != ownCollider) {
                 isPlayerVisible = true;
                 isChasingPlayer = true;
 
-                if(!seenSpoken && seenSpokenTimer == 0f)
-                    Talk(playerFoundLines);
+                //if(!seenSpoken && seenSpokenTimer == 0f)
+                //    Talk(playerFoundLines);
 
-                target = hit.transform;
-                playerLastKnownPosition = target.position;
+                playerLastKnownPosition = player.position;
 
                 StartCoroutine(ChasePlayer());
             }
             else {
                 isPlayerVisible = false;
+                isChasingPlayer = false;
                 seenSpokenTimer -= Time.deltaTime;
                 if(seenSpokenTimer <= 0f)
                     seenSpokenTimer = 0f;
-                seenSpoken = false;
+                //seenSpoken = false;
                 StopCoroutine(ToPlayerLastKnownPosition());
-                if(playerLastKnownPosition != new Vector3(0, 0, 0) && !caughtPlayer) {
+                if(playerLastKnownPosition != Vector3.zero && !caughtPlayer)
                     StartCoroutine(ToPlayerLastKnownPosition());
-                }
+                else if(playerLastKnownPosition == this.transform.position)                  
+                    playerLastKnownPosition = Vector3.zero;                    
+                else if( playerLastKnownPosition == Vector3.zero && nextWaypoint != null)
+                    agent.SetDestination(nextWaypoint.position);
+                else if(nextWaypoint == null)
+                    nextWaypoint = GetNextWaypoint();
             }
         }
     }
 
     IEnumerator ChasePlayer() {
         //chase player
-        print("chasing player");        
+        //print("chasing player");        
         agent.SetDestination(playerLastKnownPosition);
         yield return null;
     }
@@ -115,13 +131,26 @@ public class Hart : MonoBehaviour {
         yield return null;
     }
 
+    Transform GetNextWaypoint() {
+        List<Waypoint> avaiableWaypoints = new List<Waypoint>();
+        foreach(Transform waypointT in waypointsParent) {
+            Waypoint waypoint = waypointT.GetComponent<Waypoint>();
+            if(waypoint.IsAccesible)
+                avaiableWaypoints.Add(waypoint);
+        }
+        int randomInt = Random.Range(0, avaiableWaypoints.Count); 
+        Transform randomWaypoint = avaiableWaypoints[randomInt].transform;
+
+        return randomWaypoint;
+    }
+
     void OpenDoor(Collider col) {
         Door door = col.transform.GetComponent<Door>();
         if(door.IsLocked) {
             print("hart tried to open a locked door");
             // try to find a way around to the player.
         }
-        else {
+        else if(door.IsClosed){
             door.Interact();
             agent.enabled = true;
             agent.stoppingDistance = 0;
@@ -133,7 +162,7 @@ public class Hart : MonoBehaviour {
         audioSource.clip = lines[randomLineIndex];        
         audioSource.Play();
 
-        seenSpoken = true;
+        //seenSpoken = true;
         seenSpokenTimer = seenSpokenCD;
     }
 

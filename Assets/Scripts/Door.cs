@@ -4,6 +4,7 @@ public class Door : Interactable
 {
     float openSpeed = 2f; // velocidade pra abrir
     float targetAngle; // angulo (de fechado ou aberto)
+    float initialAngle; // angulo inicial da porta
 
     [SerializeField] Item key;
     [SerializeField] bool opensIn = true; // se abre pra dentro    
@@ -11,7 +12,12 @@ public class Door : Interactable
     [SerializeField] bool isLocked; // se esta fechada
     bool isMoving; // se esta movendo (pra fechar ou abrir)
 
+    public bool IsClosed { get { return !isOpen; } }
     public bool IsLocked { get { return isLocked; } }
+
+    void Start() {
+        initialAngle = transform.localEulerAngles.y;
+    }
 
     public override void Interact() {
         base.Interact();
@@ -28,13 +34,13 @@ public class Door : Interactable
     void OpenClose() {
         if (!isOpen) {
             if (opensIn)
-                targetAngle = -90f;
+                targetAngle = initialAngle -90f;
             else
-                targetAngle = 90f;
+                targetAngle = initialAngle +90f;
             isOpen = true;
         }
         else {
-            targetAngle = 0f;
+            targetAngle = initialAngle;
             isOpen = false;
         }
         isMoving = true;

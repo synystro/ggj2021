@@ -12,6 +12,7 @@ public class Movement : MonoBehaviour {
     float crouchHeight;
     float gravity = -9.81f * 2;
     Vector3 velocity;
+    Vector3 originalCenter;
 
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundMask;
@@ -19,18 +20,25 @@ public class Movement : MonoBehaviour {
     bool isGrounded;
     bool isRunning;
     bool isCrouching;
+    bool isGravityEnabled;
+
+    Camera cam;
 
     void Awake() {
         controller = this.GetComponent<CharacterController>();
         standHeight = controller.height;   
         crouchHeight = standHeight / 2; 
+        originalCenter = controller.center;
+        isGravityEnabled = true;
+        cam = Camera.main;
     }
     void Update() {
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        isGrounded = controller.isGrounded;
 
         if(isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+            velocity.y = -2;
 
         if(!isCrouching)
             HandleRun();
@@ -51,7 +59,9 @@ public class Movement : MonoBehaviour {
 
         controller.Move(move * speed * Time.deltaTime);
 
-        velocity.y += gravity * Time.deltaTime;
+        if(isGravityEnabled)
+            velocity.y += gravity * Time.deltaTime;
+
         controller.Move(velocity * Time.deltaTime);     
     }
     void HandleJump() {
@@ -67,12 +77,14 @@ public class Movement : MonoBehaviour {
         }
     }
     void HandleCrouch(){
-        if(Input.GetButtonDown("Crouch")) {  
+        if(Input.GetButtonDown("Crouch")) {         
             controller.height = crouchHeight;
+            controller.center = new Vector3(0,-crouchHeight/2,0f);
             isCrouching = true;
         }
         else if(Input.GetButtonUp("Crouch")) {
-            controller.height = standHeight;  
+            controller.height = standHeight; 
+            controller.center = originalCenter;
             isCrouching = false;
         }
     }

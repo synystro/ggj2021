@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
@@ -25,6 +26,7 @@ public class Hart : MonoBehaviour {
     [SerializeField] Transform waypointsParent;
     [SerializeField] Transform player;
     [SerializeField] Transform nextWaypoint;
+    [SerializeField] Transform previousWaypoint;
     //[SerializeField] private Transform target;
     private Rigidbody rigidBody;
 
@@ -45,6 +47,9 @@ public class Hart : MonoBehaviour {
         animator = this.GetComponentInChildren<UnityEngine.Animator>();     
         audioSource = this.GetComponent<AudioSource>();
         playerFoundLines = Resources.LoadAll<AudioClip>("Audio/Hart/playerFoundLines");
+
+        if(nextWaypoint != null)
+            agent.SetDestination(nextWaypoint.position);
     }
 
     void Update() {
@@ -105,19 +110,40 @@ public class Hart : MonoBehaviour {
                 if(seenSpokenTimer <= 0f)
                     seenSpokenTimer = 0f;
                 //seenSpoken = false;
+
                 StopCoroutine(ToPlayerLastKnownPosition());
                 if(playerLastKnownPosition != Vector3.zero && !caughtPlayer)
                     StartCoroutine(ToPlayerLastKnownPosition());
                 else if(playerLastKnownPosition == this.transform.position)                  
                     playerLastKnownPosition = Vector3.zero;                    
-                else if( playerLastKnownPosition == Vector3.zero && nextWaypoint != null)
-                    agent.SetDestination(nextWaypoint.position);
-                else if(nextWaypoint == null)
-                    nextWaypoint = GetNextWaypoint();
+                else if(playerLastKnownPosition == Vector3.zero && nextWaypoint == null) {
+                    StartCoroutine("WaitAWhile");
+                }
+
+                // check if there's a next waypoint and then if it was reached
+                if(nextWaypoint != null)
+                    if(nextWaypoint.position.x == this.transform.position.x && nextWaypoint.position.z == this.transform.position.z) {
+                        previousWaypoint = nextWaypoint;                     
+                        nextWaypoint = null;
+                    }
             }
         }
     }
-
+    IEnumerator WaitAWhile() {
+        //Random.InitState((int)System.DateTime.Now.Ticks);
+        int seconds = UnityEngine.Random.Range(0,8);
+        yield return new WaitForSeconds(seconds);
+        print("waited " + seconds + " seconds");
+        nextWaypoint = GetNextWaypoint();
+        agent.SetDestination(nextWaypoint.position);
+        StopCoroutine("WaitAWhile");
+    }
+    IEnumerator WaitAttackAnimation() {
+        float seconds = 1f;
+        yield return new WaitForSeconds(seconds);
+        GotKilled();
+        StopCoroutine("WaitAWhile");
+    }
     IEnumerator ChasePlayer() {
         //chase player
         //print("chasing player");        
@@ -132,6 +158,7 @@ public class Hart : MonoBehaviour {
     }
 
     Transform GetNextWaypoint() {
+        print("getting next wp");
         List<Waypoint> avaiableWaypoints = new List<Waypoint>();
         foreach(Transform waypointT in waypointsParent) {
             Waypoint waypoint = waypointT.GetComponent<Waypoint>();
@@ -166,14 +193,32 @@ public class Hart : MonoBehaviour {
         seenSpokenTimer = seenSpokenCD;
     }
 
+    void GotKilled() {
+        GameObject.Find("Canvas/BlackScreen").GetComponent<Image>().color = new Color(0,0,0,255);
+        AudioSource source = GameObject.Find("Killed").GetComponent<AudioSource>();
+        
+        AudioClip axeHit = Resources.Load<AudioClip>("Audio/axe_hit");
+        source.clip = axeHit;
+        source.Play();
+        GameObject.Find("Canvas/RawImage").SetActive(false);
+        Application.Quit();
+    }
+
     void OnTriggerEnter(Collider col) {
         // player collision
         if(col.gameObject.tag == "Player") {
             if(!caughtPlayer && isPlayerVisible) {
                 caughtPlayer = true;
                 print("caught player");
+                player.GetComponent<Movement>().enabled = false;
+                player.GetComponent<InputManager>().enabled = false;
+                player.GetComponentInChildren<MouseLook>().enabled = false;
+                player.LookAt(this.transform.position);
+                this.transform.LookAt(player);
+                animator.SetTrigger("caughtPlayer");
+                StartCoroutine("WaitAttackAnimation");
                 // freeze hart's rotation.
-                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
         }
 

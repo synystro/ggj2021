@@ -3,7 +3,12 @@ guid: 719d4de9b59513748a212a1f02e00917
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bancada
+    second: {fileID: 2100000, guid: d72f823c1b0597241a668ba06b90b073, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

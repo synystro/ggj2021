@@ -3,7 +3,12 @@ guid: 16486c9bbe80fbe4095d63209f64e023
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Banco
+    second: {fileID: 2100000, guid: 407f4d12e0a759e4d90229a23a2ce126, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

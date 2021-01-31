@@ -3,7 +3,17 @@ guid: c3bd3f9c4394f194d9a08aca32475923
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mesa
+    second: {fileID: 2100000, guid: d511e1641cce70e458b9aeb7eb8c2353, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PanoMesa
+    second: {fileID: 2100000, guid: e198e5650cfb79343b6ccdd7bfced02c, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

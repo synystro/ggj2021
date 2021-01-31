@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 46a34387ba052d4429d6e71ff113c470
+guid: b55dae7d76a088f428663601d48f4fbd
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EstanteTV
+    second: {fileID: 2100000, guid: 4337389da69f07441a17273636a85d28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Livro
+    second: {fileID: 2100000, guid: 571faaefed80615478491dd669c85b2d, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

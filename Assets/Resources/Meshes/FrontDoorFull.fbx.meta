@@ -48,11 +48,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Macaneta e chave
     second: {fileID: 2100000, guid: b86a3873a70c49b48a6187a961f9a3c6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MiniDoor
-    second: {fileID: 2100000, guid: 78c66064ed6af194ba06ad3d04bc9e77, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

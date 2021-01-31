@@ -3,42 +3,7 @@ guid: bf8c4168791307147bc20a595893cffe
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Glass
-    second: {fileID: 2100000, guid: d11d732e7a6a186489970292343e6c25, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Ground
-    second: {fileID: 2100000, guid: f08d0c4ad2128484aad8ada2f0910ee5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: JanelaBorda
-    second: {fileID: 2100000, guid: 297adb73cf9043f4ebe8bda1b1e3a060, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: JanelonaBorda
-    second: {fileID: 2100000, guid: 5757f4aadc1d4da4390b71c96180afa7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Stair
-    second: {fileID: 2100000, guid: 4003c58f66ed2874db1004e17384d9e8, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Teto
-    second: {fileID: 2100000, guid: 4aa26ead1c7c3fc4b825fe822469eb90, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Wall
-    second: {fileID: 2100000, guid: 851195c67fe7fce4197b439d2e7c3684, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0

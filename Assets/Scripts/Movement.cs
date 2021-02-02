@@ -23,6 +23,10 @@ public class Movement : MonoBehaviour {
     bool isGravityEnabled;
 
     Camera cam;
+    Vector3 targetCameraPos;
+    Vector3 standCameraPos;
+    Vector3 crouchCameraPos;
+    float camMoveStartTime;
 
     void Awake() {
         controller = this.GetComponent<CharacterController>();
@@ -31,6 +35,9 @@ public class Movement : MonoBehaviour {
         originalCenter = controller.center;
         isGravityEnabled = true;
         cam = Camera.main;
+        targetCameraPos = cam.transform.localPosition;
+        standCameraPos = cam.transform.localPosition;
+        crouchCameraPos = cam.transform.localPosition - new Vector3(0,1,0);
     }
     void Update() {
 
@@ -49,7 +56,14 @@ public class Movement : MonoBehaviour {
             HandleJump();
         else if(!isRunning)
             HandleCrouch();
-
+            
+        FixCamera();
+    }
+    void FixCamera() {
+        float distance = Vector3.Distance(cam.transform.position, targetCameraPos);
+        float distanceMoved = (Time.time - camMoveStartTime) * 1f;
+        float fractionOfJourney = distanceMoved / distance;
+        Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, targetCameraPos, fractionOfJourney);        
     }
     void HandleMovement() {
         float x = Input.GetAxis("Horizontal");
@@ -80,12 +94,18 @@ public class Movement : MonoBehaviour {
         if(Input.GetButtonDown("Crouch")) {         
             controller.height = crouchHeight;
             controller.center = new Vector3(0,-crouchHeight/2,0f);
+            camMoveStartTime = Time.time;
+            //standCameraPos = Camera.main.transform.localPosition - new Vector3(0,1,0);
+            targetCameraPos = crouchCameraPos;
             isCrouching = true;
         }
         else if(Input.GetButtonUp("Crouch")) {
             controller.height = standHeight; 
             controller.center = originalCenter;
+            camMoveStartTime = Time.time;
+            //standCameraPos = Camera.main.transform.localPosition + new Vector3(0,1,0);
+            targetCameraPos = standCameraPos;
             isCrouching = false;
         }
-    }
+    }    
 }

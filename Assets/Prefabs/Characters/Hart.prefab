@@ -2570,7 +2570,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eyesHeightOffset: 0
   interactionDistance: 0
-  target: {fileID: 0}
+  waypointLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  waypointsParent: {fileID: 0}
+  player: {fileID: 0}
+  nextWaypoint: {fileID: 0}
+  previousWaypoint: {fileID: 0}
 --- !u!82 &8770538080384138568
 AudioSource:
   m_ObjectHideFlags: 0

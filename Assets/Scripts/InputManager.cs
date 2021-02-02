@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour {
     bool isFlipped;
 
     void Start() {
+        Cursor.visible = false;
         // initialize inventory
         Inventory.Init();
         smartphoneInitialAngle = smartphone.localEulerAngles.y;
@@ -24,10 +25,8 @@ public class InputManager : MonoBehaviour {
         if(isFlipping) {
             Quaternion smoothRotation = Quaternion.Lerp(smartphone.localRotation, Quaternion.Euler(smartphone.localEulerAngles.x, targetAngle, smartphone.localEulerAngles.z), flipSpeed * Time.deltaTime);
             smartphone.localRotation = smoothRotation;
-            if(smartphone.localEulerAngles.y == targetAngle) {
+            if(smartphone.localEulerAngles.y == targetAngle)
                 isFlipping = false;
-                print("smarthpone current angle " + smartphone.localEulerAngles.y);
-            }
         }
     }
     void ToggleTorch() {

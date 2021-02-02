@@ -27,7 +27,7 @@ public class MouseLook : MonoBehaviour {
         playerBody.Rotate(Vector3.up * mouseX);
     }
     void Aim() {
-        float rayDistance = 2f;
+        float rayDistance = 1.5f;
         RaycastHit hit;
         if(Physics.Raycast(this.transform.position, this.gameObject.transform.forward, out hit, rayDistance, interactableMask)) {
             interactableObj = hit.collider.GetComponent<Interactable>();
